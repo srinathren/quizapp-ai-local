@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ThemeContext from '../context/ThemeContext';
 
 const Results = () => {
   const { quizId } = useParams();
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
   
   const [results, setResults] = useState(null);
   
@@ -52,7 +54,7 @@ const Results = () => {
   const scorePercentage = calculatePercentage(correctAnswers, totalQuestions);
   
   return (
-    <div>
+    <div className="results-page">
       <h2>Quiz Results</h2>
       
       <div className="results-container">
@@ -123,7 +125,7 @@ const Results = () => {
         </div>
         
         <div className="action-buttons">
-          <button onClick={handleRetry}>Try Another Quiz</button>
+          <button onClick={handleRetry} className="retry-button">Try Another Quiz</button>
         </div>
       </div>
     </div>
