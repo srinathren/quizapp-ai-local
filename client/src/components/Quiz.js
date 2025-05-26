@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ThemeContext from '../context/ThemeContext';
 
 const Quiz = () => {
   const { quizId } = useParams();
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
   
   const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -118,22 +120,22 @@ const Quiz = () => {
   }
   
   if (error) {
-    return <div className="error">{error}</div>;
+    return <div className="error-message">{error}</div>;
   }
   
   if (!quiz || !quiz.questions || quiz.questions.length === 0) {
-    return <div className="error">No questions available for this quiz.</div>;
+    return <div className="error-message">No questions available for this quiz.</div>;
   }
   
   const question = quiz.questions[currentQuestion];
   const progressPercent = (currentQuestion / quiz.questions.length) * 100;
   
   return (
-    <div>
+    <div className="quiz-page">
       <h2>Quiz: {quiz.topic}</h2>
       <div className="quiz-info">
-        <p>Difficulty: {quiz.difficulty}</p>
-        {quiz.exam && <p>Exam: {quiz.exam}</p>}
+        <p>Difficulty: <span className="quiz-difficulty">{quiz.difficulty}</span></p>
+        {quiz.exam && <p>Exam: <span className="quiz-exam">{quiz.exam}</span></p>}
         <p className="timer">Time Remaining: {formatTime(timeLeft)}</p>
       </div>
       
@@ -168,14 +170,15 @@ const Quiz = () => {
           <button 
             onClick={handlePrevQuestion} 
             disabled={currentQuestion === 0}
+            className="nav-button prev-button"
           >
             Previous
           </button>
           
           {currentQuestion < quiz.questions.length - 1 ? (
-            <button onClick={handleNextQuestion}>Next</button>
+            <button onClick={handleNextQuestion} className="nav-button next-button">Next</button>
           ) : (
-            <button onClick={handleQuizSubmit}>Submit Quiz</button>
+            <button onClick={handleQuizSubmit} className="nav-button submit-button">Submit Quiz</button>
           )}
         </div>
       </div>

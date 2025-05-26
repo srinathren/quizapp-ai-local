@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ThemeContext from '../context/ThemeContext';
 
 const Home = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const Home = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { theme } = useContext(ThemeContext);
   
   const navigate = useNavigate();
   
@@ -63,10 +65,10 @@ const Home = () => {
   };
   
   return (
-    <div>
+    <div className="home-container">
       <h2>Generate Your AI Quiz</h2>
       <div className="form-container">
-        {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
+        {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -79,7 +81,6 @@ const Home = () => {
               onChange={handleChange}
               required
               placeholder="Enter the topic for your quiz"
-              className="light-input"
             />
           </div>
           
@@ -142,7 +143,7 @@ const Home = () => {
             <small className="form-help">Total time to complete all questions</small>
           </div>
           
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className="submit-button">
             {loading ? 'Generating Quiz...' : 'Generate Quiz'}
           </button>
         </form>
