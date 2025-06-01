@@ -25,7 +25,7 @@ function App() {
           </Router>
         </main>
         <footer>
-          <p>Built with React, Node.js and OpenAI</p>
+          
         </footer>
       </div>
     </ThemeProvider>
