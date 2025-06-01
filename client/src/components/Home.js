@@ -66,7 +66,7 @@ const Home = () => {
   
   return (
     <div className="home-container">
-      <h2>Generate Your AI Quiz</h2>
+      <h2>Generate Your Quiz</h2>
       <div className="form-container">
         {error && <div className="error-message">{error}</div>}
         
