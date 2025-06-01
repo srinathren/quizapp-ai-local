@@ -81,52 +81,6 @@ router.post('/generate-quiz', (req, res, next) => {
   } catch (error) {
     console.error('Error generating quiz:', error.message);
     
-    // Attempt to create a simpler quiz with fewer questions if we hit a timeout
-    if (error.message.includes('timeout') && req.body.numQuestions && parseInt(req.body.numQuestions) > 2) {
-      const originalCount = parseInt(req.body.numQuestions);
-      const topic = req.body.topic;
-      const difficulty = req.body.difficulty;
-      const exam = req.body.exam;
-      
-      console.warn(`Timeout occurred with ${originalCount} questions. Attempting with 1 question instead.`);
-      try {
-        // Try with just 1 question as absolute simplest case
-        const reducedSize = 1;
-        const partialQuestionsData = await llamaService.generateQuiz(
-          topic, 
-          reducedSize, 
-          difficulty, 
-          exam
-        );
-        
-        // Return partial results with a warning
-        const quiz = new Quiz({
-          topic,
-          numQuestions: partialQuestionsData.length,
-          difficulty: difficulty || 'Medium',
-          exam: exam || 'General',
-          questions: partialQuestionsData
-        });
-        
-        await quiz.save();
-        
-        return res.status(206).json({
-          status: 'partial',
-          quizId: quiz._id,
-          topic,
-          numQuestions: partialQuestionsData.length,
-          requestedQuestions: originalCount,
-          difficulty: difficulty || 'Medium',
-          exam: exam || 'General',
-          questions: partialQuestionsData,
-          message: `We encountered a timeout generating ${originalCount} questions. We've provided ${partialQuestionsData.length} questions instead. Try requesting fewer questions in the future.`
-        });
-      } catch (fallbackError) {
-        console.error('Fallback quiz generation failed too:', fallbackError);
-        // Continue to regular error handling
-      }
-    }
-
     // Send appropriate error message based on error type
     if (error.message.includes('LLM')) {
       return res.status(503).json({ 
