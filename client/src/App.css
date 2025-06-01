@@ -53,10 +53,10 @@
   --button-hover: #5373ef;
   --input-border: #333333; /* Darker input border */
   --input-focus: #1FEFEF; /* Focus color using secondary */
-  --option-selected: rgba(31, 239, 239, 0.1); /* Secondary with opacity */
+  --option-selected: rgba(64, 98, 222, 0.25); /* Primary with increased opacity */
   --option-border: #333333;
   --option-hover: #2a2a2a;
-  --option-selected-border: #1FEFEF; /* Secondary color border */
+  --option-selected-border: #4062DE; /* Primary color border */
   --timer-bg: rgba(64, 98, 222, 0.1); /* Primary with opacity */
   --score-high: #81c784; /* Brighter green */
   --score-medium: #ffb74d; /* Brighter orange */
@@ -285,6 +285,7 @@ button:active {
   border-color: var(--option-selected-border);
   transform: translateY(-2px);
   box-shadow: 0 2px 8px var(--shadow-color);
+  border-width: 2px; /* Make border slightly thicker when selected */
 }
 
 .option-key {
@@ -578,15 +579,10 @@ button:active {
     background-color: var(--option-hover);
 }
 
-
-[data-theme='dark'] .option.correct {
-  background-color: rgba(76, 175, 80, 0.25); /* Slightly more opaque */
-  border-color: var(--score-high);
-}
-
-[data-theme='dark'] .option.incorrect {
-  background-color: rgba(247, 110, 110, 0.25); /* Slightly more opaque */
-  border-color: var(--score-low);
+[data-theme='dark'] .option.selected {
+  background-color: var(--option-selected); /* Use the updated variable */
+  border-color: var(--option-selected-border); /* Use the updated variable */
+  border-width: 2px; /* Ensure thicker border in dark mode too */
 }
 
 [data-theme='dark'] .answer-correct {
